@@ -20,7 +20,10 @@ import { Eye, EyeOff } from "lucide-react";
 import { useState } from "react";
 import Link from "next/link";
 
+import { useRouter } from "next/navigation";
+
 export const LoginForm = () => {
+    const router = useRouter();
     const [showPassword, setShowPassword] = useState(false);
 
     const form = useForm<z.infer<typeof LoginSchema>>({
@@ -33,17 +36,18 @@ export const LoginForm = () => {
 
     const onSubmit = (values: z.infer<typeof LoginSchema>) => {
         console.log(values);
+        router.push("/dashboard");
     };
 
     return (
         <CardWrapper
-            headerLabel="Login to your account"
+            headerLabel="Welcome Back"
             backButtonLabel="Don't have an account?"
             backButtonHref="/sign-up"
             showSocial
         >
-            <div className="mb-4 text-center text-sm text-gray-500">
-                Don't have an account? <Link href="/sign-up" className="text-blue-600 hover:underline">Sign Up</Link>
+            <div className="mb-6 text-center text-sm text-gray-600">
+                Do not have an account? <Link href="/sign-up" className="text-[#0057E5] hover:underline">Sign up</Link>
             </div>
             <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
@@ -53,11 +57,11 @@ export const LoginForm = () => {
                             name="email"
                             render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel className="text-base font-medium text-gray-900">Email Id</FormLabel>
+                                    <FormLabel className="text-base font-medium text-gray-900">Username or Email Id</FormLabel>
                                     <FormControl>
                                         <Input
                                             {...field}
-                                            placeholder="Enter your email"
+                                            placeholder="Enter your username or email"
                                             type="email"
                                             className="h-12 border-0 bg-gray-100"
                                         />
@@ -76,7 +80,7 @@ export const LoginForm = () => {
                                         <FormControl>
                                             <Input
                                                 {...field}
-                                                placeholder="Enter your password"
+                                                placeholder="Enter password"
                                                 type={showPassword ? "text" : "password"}
                                                 className="h-12 border-0 bg-gray-100 pr-10"
                                             />
@@ -95,18 +99,22 @@ export const LoginForm = () => {
                         />
                     </div>
 
-                    <div className="flex items-center space-x-2">
-                        <Checkbox id="terms" />
-                        <label
-                            htmlFor="terms"
-                            className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-gray-500"
-                        >
-                            I have read and agree with the
-                        </label>
-                        <Link href="#" className="underline text-sm font-medium text-gray-500">terms and conditions</Link>
+                    <div className="flex items-center justify-between">
+                        <div className="flex items-center space-x-2">
+                            <Checkbox id="remember" className="border-gray-400" />
+                            <label
+                                htmlFor="remember"
+                                className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-gray-600"
+                            >
+                                Remember me
+                            </label>
+                        </div>
+                        <Link href="/forgot-password" className="text-sm font-medium text-gray-500 hover:text-gray-800 underline">
+                            Forgot password?
+                        </Link>
                     </div>
 
-                    <Button type="submit" className="w-full bg-[#0057E5] hover:bg-[#0046b8] text-white h-12 text-md">
+                    <Button type="submit" className="w-full bg-[#0057E5] hover:bg-[#0046b8] text-white h-12 text-md font-medium">
                         Login
                     </Button>
                 </form>

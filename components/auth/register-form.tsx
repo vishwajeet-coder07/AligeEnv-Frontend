@@ -20,7 +20,10 @@ import { Eye, EyeOff } from "lucide-react";
 import { useState } from "react";
 import Link from "next/link";
 
+import { useRouter } from "next/navigation";
+
 export const RegisterForm = () => {
+    const router = useRouter();
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
@@ -35,6 +38,7 @@ export const RegisterForm = () => {
 
     const onSubmit = (values: z.infer<typeof RegisterSchema>) => {
         console.log(values);
+        router.push("/dashboard");
     };
 
     return (
@@ -111,9 +115,6 @@ export const RegisterForm = () => {
                             </FormItem>
                         )}
                     />
-                    {/* Note: Confirm Password is in design but not in basic schema yet. 
-              Adding UI for it, but might not validate fully without schema update.
-              Visual only for now. */}
                     <div className="space-y-2">
                         <FormLabel className="text-base font-medium text-gray-900">Confirm Password</FormLabel>
                         <div className="relative">
