@@ -40,7 +40,16 @@ export default function AuthLayout({
             </div>
 
             {/* Right Side - Auth Forms */}
-            <div className="flex w-full items-center justify-center bg-white p-4 lg:w-1/2 overflow-auto">
+            <div className="flex flex-col w-full items-center justify-center bg-white lg:w-1/2 overflow-auto">
+                <div className="flex items-center gap-2">
+                    <Image
+                        src="/Images/logo.svg"
+                        alt="Agile Logo"
+                        width={40}
+                        height={40}
+                        className="h-22 w-22"
+                    />
+                </div>
                 <div className="w-full max-w-md">{children}</div>
             </div>
         </div>

@@ -147,7 +147,7 @@ export const VerifyRegistrationForm = () => {
                                 onKeyDown={(e) => handleKeyDown(index, e)}
                                 onPaste={handlePaste}
                                 disabled={loading}
-                                className="h-12 w-12 rounded-lg bg-gray-100 text-center text-xl font-semibold text-gray-900 outline-none focus:ring-2 focus:ring-[#0057E5]"
+                                className="h-12 w-12 rounded-lg bg-gray-300 text-center text-xl font-semibold text-gray-900 outline-none focus:ring-2 focus:ring-[#0057E5]"
                             />
                         ))}
                     </div>

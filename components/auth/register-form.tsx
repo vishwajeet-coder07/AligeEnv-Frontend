@@ -74,12 +74,12 @@ export const RegisterForm = () => {
                 Already have an account? <Link href="/login" className="text-blue-600 hover:underline">log in</Link>
             </div>
             <Form {...form}>
-                <form onSubmit={form.handleSubmit(throttledSubmit)} className="space-y-2">
+                <form onSubmit={form.handleSubmit(throttledSubmit)} className="space-y-5">
                     <FormField
                         control={form.control}
                         name="username"
                         render={({ field }) => (
-                            <FormItem className="space-y-1">
+                            <FormItem className="space-y-0.8">
                                 <FormLabel className="text-sm font-medium text-gray-900">Username</FormLabel>
                                 <FormControl>
                                     <Input
@@ -97,7 +97,7 @@ export const RegisterForm = () => {
                         control={form.control}
                         name="email"
                         render={({ field }) => (
-                            <FormItem className="space-y-1">
+                            <FormItem className="space-y-0.8">
                                 <FormLabel className="text-sm font-medium text-gray-900">Email Id</FormLabel>
                                 <FormControl>
                                     <Input
@@ -116,7 +116,7 @@ export const RegisterForm = () => {
                         control={form.control}
                         name="password"
                         render={({ field }) => (
-                            <FormItem className="space-y-1">
+                            <FormItem className="space-y-0.8">
                                 <FormLabel className="text-sm font-medium text-gray-900">Password</FormLabel>
                                 <div className="relative">
                                     <FormControl>
@@ -145,7 +145,7 @@ export const RegisterForm = () => {
                         control={form.control}
                         name="confirmPassword"
                         render={({ field }) => (
-                            <FormItem className="space-y-1">
+                            <FormItem className="space-y-0.8">
                                 <FormLabel className="text-sm font-medium text-gray-900">Confirm Password</FormLabel>
                                 <div className="relative">
                                     <FormControl>
