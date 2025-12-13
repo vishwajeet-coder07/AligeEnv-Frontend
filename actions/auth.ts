@@ -1,9 +1,7 @@
-"use client";
+"use server";
 
 import * as z from "zod";
 import { RegisterSchema, LoginSchema, ResetSchema, VerifySchema, ResetCompleteSchema } from "@/schemas";
-// import { AuthError } from "next-auth";
-// import { headers } from "next/headers";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
 

@@ -26,6 +26,7 @@ export const NewPasswordForm = () => {
     const [success, setSuccess] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
     const searchParams = useSearchParams();
     const token = searchParams.get("token");
 

@@ -1,10 +1,13 @@
 
+import { Suspense } from "react";
 import { NewPasswordForm } from "@/components/auth/new-password-form";
 
 const ResetPasswordPage = () => {
     return (
         <div className="flex w-full items-center justify-center">
-            <NewPasswordForm />
+            <Suspense fallback={<div>Loading...</div>}>
+                <NewPasswordForm />
+            </Suspense>
         </div>
     );
 }
