@@ -5,13 +5,26 @@ import { Button } from "@/components/ui/button";
 import { googleRedirect, githubRedirect } from "@/actions/auth";
 
 export const Social = () => {
+    const handleGoogleRedirect = async () => {
+        const res = await googleRedirect();
+        if (res.success) {
+            window.location.href = res.link;
+        }
+    }
+    const handleGithubRedirect = async () => {
+        const res = await githubRedirect();
+        if (res.success) {
+            window.location.href = res.link;
+        }
+    }
+
     return (
         <div className="flex w-1/2 sm:px-1 items-center gap-2">
             <Button
                 size="lg"
                 className="w-full gap-1 border border-blue-500 bg-white text-[#0057E5] hover:bg-slate-50 flex"
                 variant="outline"
-                onClick={googleRedirect}
+                onClick={handleGoogleRedirect}
             >
                 <Image
                     src="/Images/GoogleLogo.svg"
@@ -25,7 +38,7 @@ export const Social = () => {
                 size="lg"
                 className="w-full gap-1 border border-blue-500 bg-white text-[#0057E5] hover:bg-slate-50 flex"
                 variant="outline"
-                onClick={githubRedirect}
+                onClick={handleGithubRedirect}
             >
                 <Image
                     src="/Images/GithubLogo.svg"

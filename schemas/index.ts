@@ -7,6 +7,7 @@ export const LoginSchema = z.object({
     password: z.string().min(1, {
         message: "Password is required",
     }),
+    rememberMe: z.boolean().optional(),
 });
 
 export const RegisterSchema = z.object({
@@ -23,8 +24,10 @@ export const RegisterSchema = z.object({
         message: "Name is required",
     }).max(40, {
         message: "Name too long (max 40)",
-    }).regex(/^[a-zA-Z0-9_@]+$/, {
-        message: "Username can only contain letters, numbers, underscores and @",
+    }).regex(/^[a-zA-Z0-9_]+$/, {
+        message: "Username can only contain letters, numbers and underscores",
+    }).regex(/^[^0-9]/, {
+        message: "Username cannot start with a number",
     }),
 }).refine((data) => data.password === data.confirmPassword, {
     message: "Passwords do not match",

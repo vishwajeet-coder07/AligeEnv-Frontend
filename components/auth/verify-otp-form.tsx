@@ -81,11 +81,12 @@ export const VerifyOtpForm = () => {
         if (otpCode.length < 6 || !email) return;
 
         try {
-            const res = await resetPassword({ email, otp: otpCode });
-            if (!res.success && res.data?.reset_token) {
+            const res = await resetPassword({ email: email, otp: otpCode });
+            if (res.success || res.data?.reset_token) {
                 router.push(`/reset-password?token=${res.data.reset_token}`)
             } else {
                 console.error(res.error || "Verification Failed!");
+                toast.error(res.error || "Verification Failed!");
             }
         } catch (error) {
             console.error("Error verifying OTP", error);
@@ -114,7 +115,7 @@ export const VerifyOtpForm = () => {
                                 onChange={(e) => handleChange(index, e.target.value)}
                                 onKeyDown={(e) => handleKeyDown(index, e)}
                                 onPaste={handlePaste}
-                                className="h-12 w-12 rounded-lg bg-gray-100 text-center text-xl font-semibold text-gray-900 outline-none focus:ring-2 focus:ring-[#0057E5]"
+                                className="h-12 w-12 rounded-lg bg-gray-300 text-center text-xl font-semibold text-gray-900 outline-none focus:ring-2 focus:ring-[#0057E5]"
                             />
                         ))}
                     </div>

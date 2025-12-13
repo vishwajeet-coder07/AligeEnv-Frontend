@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useRouter, useSearchParams } from "next/navigation";
@@ -16,7 +15,6 @@ const CallbackContent = () => {
     useEffect(() => {
         const handleCallback = async () => {
             if (code && state) {
-                // console.log("Processing callback...", { code, state });
                 const res = await (provider === "google" ? googleCallback(code, state) : githubCallback(code, state));
                 if (res.success) {
                     router.push("/dashboard");
@@ -35,7 +33,7 @@ const CallbackContent = () => {
 
 export default function Callback() {
     return (
-        <Suspense fallback={<div>Loading...</div>}>
+        <Suspense fallback={<div className="flex justify-center items-center">Loading...</div>}>
             <CallbackContent />
         </Suspense>
     );

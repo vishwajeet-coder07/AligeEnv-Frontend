@@ -33,6 +33,7 @@ export const LoginForm = () => {
         defaultValues: {
             email: "",
             password: "",
+            rememberMe: false,
         },
     });
 
@@ -41,9 +42,7 @@ export const LoginForm = () => {
         try {
             const data = await login(values);
 
-            if (data?.data) {
-                localStorage.setItem("access_token", data.data.access_token);
-                localStorage.setItem("refresh_token", data.data.refresh_token);
+            if (data?.success) {
                 router.push("/dashboard");
             } else {
                 console.error(data?.error || "Login failed");
@@ -118,17 +117,30 @@ export const LoginForm = () => {
                     </div>
 
                     <div className="flex items-center justify-between">
-                        <div className="flex items-center space-x-2">
-                            <Checkbox id="remember" className="border-gray-400"
-                                onCheckedChange={(checked) => console.log(checked)}
-                            />
-                            <label
-                                htmlFor="remember"
-                                className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-gray-600"
-                            >
-                                Remember me
-                            </label>
-                        </div>
+                        <FormField
+                            control={form.control}
+                            name="rememberMe"
+                            render={({ field }) => (
+                                <FormItem className="flex flex-row items-center space-x-2 space-y-0">
+                                    <FormControl>
+                                        <Checkbox
+                                            id="remember"
+                                            className="border-gray-400"
+                                            checked={field.value}
+                                            onCheckedChange={field.onChange}
+                                            disabled={loading}
+                                        />
+                                    </FormControl>
+                                    <label
+                                        htmlFor="remember"
+                                        className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-gray-600 cursor-pointer"
+                                    >
+                                        Remember me
+                                    </label>
+                                </FormItem>
+                            )}
+                        />
+
                         <Link href="/forgot-password" className="text-sm font-medium text-gray-500 hover:text-gray-800 underline">
                             Forgot password?
                         </Link>
@@ -139,6 +151,6 @@ export const LoginForm = () => {
                     </Button>
                 </form>
             </Form>
-        </CardWrapper>
+        </CardWrapper >
     );
 };

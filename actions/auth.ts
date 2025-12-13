@@ -2,6 +2,22 @@
 
 import * as z from "zod";
 import { RegisterSchema, LoginSchema, ResetSchema, VerifySchema, ResetCompleteSchema } from "@/schemas";
+import { cookies } from "next/headers";
+
+const setAuthCookie = async (name: string, value: string, remember: boolean, maxAgeSeconds: number = 24 * 60 * 60) => {
+    const cookieStore = await cookies();
+    cookieStore.set(name, value, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === "production",
+        path: "/",
+        maxAge: remember ? maxAgeSeconds : undefined,
+    });
+};
+
+export const removeAuthCookie = async (name: string) => {
+    const cookieStore = await cookies();
+    cookieStore.delete(name);
+}
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
@@ -12,7 +28,7 @@ export const login = async (values: z.infer<typeof LoginSchema>) => {
         return { error: "Invalid fields!" };
     }
 
-    const { email, password } = validatedFields.data;
+    const { email, password, rememberMe } = validatedFields.data;
 
     try {
         const response = await fetch(`${API_URL}login/`, {
@@ -29,9 +45,47 @@ export const login = async (values: z.infer<typeof LoginSchema>) => {
         }
 
         const data = await response.json();
+        const remember = !!rememberMe;
+
+        await setAuthCookie("access_token", data.access_token, remember, 60 * 60 * 24);
+        await setAuthCookie("refresh_token", data.refresh_token, remember, 60 * 60 * 24 * 7);
+        await setAuthCookie("user", JSON.stringify(data.user), remember, 60 * 60 * 24 * 7);
+
         return { success: "Login successful!", data };
     } catch (error) {
         return { error: "Something went wrong!" };
+    }
+};
+
+export const refreshAuthToken = async () => {
+    const cookieStore = await cookies();
+    const refreshToken = cookieStore.get("refresh_token")?.value;
+
+    if (!refreshToken) {
+        return { error: "No refresh token found" };
+    }
+
+    try {
+        const response = await fetch(`${API_URL}refresh/`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ refresh_token: refreshToken }),
+        });
+
+        if (!response.ok) {
+            return { error: "Failed to refresh token" };
+        }
+
+        const data = await response.json();
+
+        const newRefreshToken = data.refresh || data.refresh_token;
+        const newAccessToken = data.access || data.access_token;
+        await setAuthCookie("refresh_token", newRefreshToken, true, 60 * 60 * 24 * 7);
+        await setAuthCookie("access_token", newAccessToken, true, 60 * 60 * 24);
+
+        return { success: "Token refreshed", accessToken: newAccessToken };
+    } catch (error) {
+        return { error: "Something went wrong during refresh" };
     }
 };
 
@@ -144,7 +198,7 @@ export const resetPassword = async (values: z.infer<typeof VerifySchema>) => {
     }
 
     try {
-        const response = await fetch(`${API_URL}resetpassword/`, {
+        const response = await fetch(`${API_URL}verify-reset-otp/`, {
 
             method: "POST",
             headers: { "Content-Type": "application/json" },
@@ -204,10 +258,7 @@ export const googleRedirect = async () => {
 
         const data = await response.json();
         const link = data.authorization_url;
-        // window.open(link, "_blank");
-        window.location.href = link;
-
-        return { success: "Redirected!" };
+        return { success: "Redirected!", link };
     }
     catch (error) {
         return { error: "Something went wrong!" };
@@ -232,10 +283,11 @@ export const googleCallback = async (code: string, state: string) => {
         const accessToken = data.access_token;
         const refreshToken = data.refresh_token;
         const user = data.user;
-        sessionStorage.setItem("access_token", accessToken);
-        sessionStorage.setItem("refresh_token", refreshToken);
-        sessionStorage.setItem("user", JSON.stringify(user));
-        return { success: "Logged In!" };
+        await setAuthCookie("access_token", accessToken, true, 60 * 60 * 24);
+        await setAuthCookie("refresh_token", refreshToken, true, 60 * 60 * 24 * 7);
+        await setAuthCookie("user", JSON.stringify(user), true, 60 * 60 * 24 * 7);
+
+        return { success: "Logged In!", accessToken, refreshToken, user };
     }
     catch (error) {
         return { error: "Something went wrong!" };
@@ -255,10 +307,7 @@ export const githubRedirect = async () => {
 
         const data = await response.json();
         const link = data.authorization_url;
-        // window.open(link, "_blank");
-        window.location.href = link;
-
-        return { success: "Redirected!" };
+        return { success: "Redirected!", link };
     }
     catch (error) {
         return { error: "Something went wrong!" };
@@ -270,6 +319,10 @@ export const githubCallback = async (code: string, state: string) => {
         const response = await fetch(`${API_URL}auth/github/callback/`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                code,
+                state
+            })
         });
         if (!response.ok) {
             return { error: "Failed to Redirect!" };
@@ -279,10 +332,11 @@ export const githubCallback = async (code: string, state: string) => {
         const accessToken = data.access_token;
         const refreshToken = data.refresh_token;
         const user = data.user;
-        sessionStorage.setItem("access_token", accessToken);
-        sessionStorage.setItem("refresh_token", refreshToken);
-        sessionStorage.setItem("user", JSON.stringify(user));
-        return { success: "Logged In!" };
+        await setAuthCookie("access_token", accessToken, true, 60 * 60 * 24);
+        await setAuthCookie("refresh_token", refreshToken, true, 60 * 60 * 24 * 7);
+        await setAuthCookie("user", JSON.stringify(user), true, 60 * 60 * 24 * 7);
+
+        return { success: "Logged In!", accessToken, refreshToken, user };
     }
     catch (error) {
         return { error: "Something went wrong!" };
