@@ -53,9 +53,9 @@ const CallbackContent = () => {
         return (
             <div className="flex flex-col items-center justify-center gap-4">
                 <p className="text-red-500">Invalid callback URL. Missing code or state.</p>
-                <div onClick={() => router.push("/login")} className="cursor-pointer text-blue-500 hover:underline">
+                <Button onClick={() => router.push("/login")} className="cursor-pointer text-blue-500 hover:underline">
                     Back to Login
-                </div>
+                </Button>
             </div>
         )
     }
@@ -65,9 +65,9 @@ const CallbackContent = () => {
             <div className="flex flex-col items-center justify-center gap-4">
                 <p className="text-red-500">Configuration Error: Missing 'provider' parameter.</p>
                 <p className="text-sm text-gray-500">The callback URL is missing ?provider=google or ?provider=github</p>
-                <div onClick={() => router.push("/login")} className="cursor-pointer text-blue-500 hover:underline">
+                <Button onClick={() => router.push("/login")} className="cursor-pointer text-blue-500 hover:underline">
                     Back to Login
-                </div>
+                </Button>
             </div>
         )
     }
@@ -76,7 +76,6 @@ const CallbackContent = () => {
         <div className="flex flex-col items-center justify-center gap-4">
             <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900"></div>
             <p>Completing secure sign in...</p>
-            <Button onClick={() => router.push("/login")}>Back to Login</Button>
         </div>
     );
 };

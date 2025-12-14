@@ -60,6 +60,7 @@ export const login = async (values: z.infer<typeof LoginSchema>) => {
 export const refreshAuthToken = async () => {
     const cookieStore = await cookies();
     const refreshToken = cookieStore.get("refresh_token")?.value;
+    const accessToken = cookieStore.get("access_token")?.value;
 
     if (!refreshToken) {
         return { error: "No refresh token found" };

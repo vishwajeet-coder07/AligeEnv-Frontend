@@ -12,7 +12,6 @@ export function middleware(request: NextRequest) {
     }
 
     const token = request.cookies.get("reset_token")?.value;
-
     if (pathname.startsWith("/reset-password")) {
         if (!token) {
             return NextResponse.redirect(new URL("/login", request.url));
