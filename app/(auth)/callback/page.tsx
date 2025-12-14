@@ -1,8 +1,9 @@
 "use client";
 
 import { useRouter, useSearchParams } from "next/navigation";
-import { useEffect, Suspense } from "react";
+import { useEffect, Suspense, useRef } from "react";
 import { googleCallback, githubCallback } from "@/actions/auth";
+import { toast } from "sonner";
 
 const CallbackContent = () => {
     const router = useRouter();
@@ -11,24 +12,71 @@ const CallbackContent = () => {
     const code = searchParams.get("code");
     const state = searchParams.get("state");
     const provider = searchParams.get("provider");
+    const called = useRef(false);
 
     useEffect(() => {
         const handleCallback = async () => {
-            if (code && state) {
-                const res = await (provider === "google" ? googleCallback(code, state) : githubCallback(code, state));
-                if (res.success) {
-                    router.push("/dashboard");
-                } else {
-                    console.error("Callback failed", res.error);
-                    router.push("/login");
-                }
+            if (called.current) return;
+            called.current = true;
+            console.log("Callback Params:", { code, state, provider });
+
+            if (!code || !state) {
+                console.error("Missing code or state");
+                toast.error("Missing authentication data");
+                return;
+            }
+
+            if (!provider) {
+                console.error("Missing provider parameter. Check your OAuth redirect URI.");
+                toast.error("Missing provider parameter. Please contact support.");
+                return;
+            }
+
+            toast.loading(`Authenticating with ${provider}...`, { id: "auth-toast" });
+
+            const res = await (provider === "google" ? googleCallback(code, state) : githubCallback(code, state));
+
+            if (res.success) {
+                toast.success("Successfully logged in!", { id: "auth-toast" });
+                router.push("/dashboard");
+            } else {
+                console.error("Callback failed", res.error);
+                toast.error(res.error || "Authentication failed", { id: "auth-toast" });
             }
         };
 
         handleCallback();
     }, [code, state, router, provider]);
 
-    return <div>Loading...</div>;
+    if (!code || !state) {
+        return (
+            <div className="flex flex-col items-center justify-center gap-4">
+                <p className="text-red-500">Invalid callback URL. Missing code or state.</p>
+                <div onClick={() => router.push("/login")} className="cursor-pointer text-blue-500 hover:underline">
+                    Back to Login
+                </div>
+            </div>
+        )
+    }
+
+    if (!provider) {
+        return (
+            <div className="flex flex-col items-center justify-center gap-4">
+                <p className="text-red-500">Configuration Error: Missing 'provider' parameter.</p>
+                <p className="text-sm text-gray-500">The callback URL is missing ?provider=google or ?provider=github</p>
+                <div onClick={() => router.push("/login")} className="cursor-pointer text-blue-500 hover:underline">
+                    Back to Login
+                </div>
+            </div>
+        )
+    }
+
+    return (
+        <div className="flex flex-col items-center justify-center gap-4">
+            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900"></div>
+            <p>Completing secure sign in...</p>
+        </div>
+    );
 };
 
 export default function Callback() {

@@ -1,24 +1,28 @@
 import * as z from "zod";
 
+const noEmojiRegex = /^(?:(?!\p{Extended_Pictographic}).)*$/u;
+const emojiError = "Emojis are not allowed";
+
 export const LoginSchema = z.object({
     email: z.string().email({
         message: "Email is required",
-    }),
+    }).regex(noEmojiRegex, emojiError),
     password: z.string().min(1, {
         message: "Password is required",
-    }),
+    }).regex(noEmojiRegex, emojiError),
     rememberMe: z.boolean().optional(),
 });
 
 export const RegisterSchema = z.object({
     email: z.string().email({
         message: "Email is required",
-    }),
+    }).regex(noEmojiRegex, emojiError),
     password: z.string().min(8, {
         message: "Minimum 8 characters required",
     }).regex(new RegExp(".*[A-Z].*"), "One uppercase character")
         .regex(new RegExp(".*[0-9].*"), "One number")
-        .regex(new RegExp(".*[^a-zA-Z0-9].*"), "One special character"),
+        .regex(new RegExp(".*[^a-zA-Z0-9].*"), "One special character")
+        .regex(noEmojiRegex, emojiError),
     confirmPassword: z.string().min(1, "Password confirmation is required"),
     username: z.string().min(1, {
         message: "Name is required",
@@ -28,7 +32,7 @@ export const RegisterSchema = z.object({
         message: "Username can only contain letters, numbers and underscores",
     }).regex(/^[^0-9]/, {
         message: "Username cannot start with a number",
-    }),
+    }).regex(noEmojiRegex, emojiError),
 }).refine((data) => data.password === data.confirmPassword, {
     message: "Passwords do not match",
     path: ["confirmPassword"],

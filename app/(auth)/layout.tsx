@@ -40,7 +40,7 @@ export default function AuthLayout({
             </div>
 
             {/* Right Side - Auth Forms */}
-            <div className="flex flex-col w-full items-center justify-center bg-white lg:w-1/2 overflow-auto">
+            <div className="flex flex-col w-full items-center justify-center bg-white lg:w-1/2 p-6 overflow-auto">
                 <div className="flex items-center gap-2">
                     <Image
                         src="/Images/logo.svg"

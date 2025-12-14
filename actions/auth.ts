@@ -271,12 +271,14 @@ export const googleCallback = async (code: string, state: string) => {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
-                code,
-                state
+                code: code,
+                state: state
             })
         });
         if (!response.ok) {
-            return { error: "Failed to Redirect!" };
+            const errorText = await response.text();
+            console.error(`Backend API Error (${response.status}): ${errorText}`);
+            return { error: `Backend Error ${response.status}: ${errorText || "Unknown error"}` };
         }
 
         const data = await response.json();
@@ -320,12 +322,14 @@ export const githubCallback = async (code: string, state: string) => {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
-                code,
-                state
+                code: code,
+                state: state
             })
         });
         if (!response.ok) {
-            return { error: "Failed to Redirect!" };
+            const errorText = await response.text();
+            console.error(`Backend API Error (${response.status}): ${errorText}`);
+            return { error: `Backend Error ${response.status}: ${errorText || "Unknown error"}` };
         }
 
         const data = await response.json();
