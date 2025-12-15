@@ -82,8 +82,8 @@ export const LoginForm = () => {
                                     <FormControl>
                                         <Input
                                             {...field}
-                                            placeholder="Enter your email"
-                                            // type="email" // Allow username
+                                            placeholder="Enter your email or username"
+                                            type="text" // Allow username
                                             className="h-12 border-0 bg-gray-100"
                                             disabled={loading}
                                         />

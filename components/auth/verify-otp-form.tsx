@@ -121,7 +121,7 @@ export const VerifyOtpForm = () => {
                                 onChange={(e) => handleChange(index, e.target.value)}
                                 onKeyDown={(e) => handleKeyDown(index, e)}
                                 onPaste={handlePaste}
-                                className="h-12 w-12 rounded-lg bg-gray-300 text-center text-xl font-semibold text-gray-900 outline-none focus:ring-2 focus:ring-[#0057E5]"
+                                className="h-12 w-12 rounded-lg bg-gray-200 text-center text-xl font-semibold text-gray-900 outline outline-1 outline-blue-500 outline-solid focus:ring-2 focus:ring-[#0057E5]"
                             />
                         ))}
                     </div>

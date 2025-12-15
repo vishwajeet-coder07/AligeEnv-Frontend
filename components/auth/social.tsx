@@ -19,7 +19,7 @@ export const Social = () => {
     }
 
     return (
-        <div className="flex w-1/2 sm:px-1 items-center gap-2">
+        <div className="flex w-1/2 items-center gap-2">
             <Button
                 size="lg"
                 className="w-full gap-1 border border-blue-500 bg-white text-[#0057E5] hover:bg-slate-50 flex"
@@ -32,7 +32,7 @@ export const Social = () => {
                     width={20}
                     height={20}
                 />
-                <span className="text-xs sm:inline">Sign Up With Google</span>
+                <span className="text-xs sm:text-md sm:inline">Sign Up With Google</span>
             </Button>
             <Button
                 size="lg"

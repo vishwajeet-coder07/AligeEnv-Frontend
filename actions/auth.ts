@@ -14,11 +14,13 @@ const setAuthCookie = async (name: string, value: string, remember: boolean, max
     });
 };
 
-export const removeAuthCookie = async (name: string) => {
+export const removeAuthCookie = async (name: string, name1: string, name2: string) => {
     const cookieStore = await cookies();
     cookieStore.delete(name);
+    cookieStore.delete(name1);
+    cookieStore.delete(name2);
 }
-
+// const API_URL = process.env.NEXT_PUBLIC_API_URL;
 const API_URL = process.env.NEXT_PUBLIC_API_URL1;
 
 export const login = async (values: z.infer<typeof LoginSchema>) => {
@@ -249,7 +251,7 @@ export const completeReset = async (values: z.infer<typeof ResetCompleteSchema>)
 
 export const googleRedirect = async () => {
     try {
-        const response = await fetch(`${API_URL}auth/google/login/`, {
+        const response = await fetch(`${API_URL}auth/google/login/?platform=web`, {
             method: "GET",
             headers: { "Content-Type": "application/json" },
         });
@@ -268,7 +270,7 @@ export const googleRedirect = async () => {
 
 export const googleCallback = async (code: string, state: string) => {
     try {
-        const response = await fetch(`${API_URL}auth/google/callback/`, {
+        const response = await fetch(`${API_URL}auth/google/callback/?platform=web`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
@@ -300,7 +302,7 @@ export const googleCallback = async (code: string, state: string) => {
 
 export const githubRedirect = async () => {
     try {
-        const response = await fetch(`${API_URL}auth/github/login/`, {
+        const response = await fetch(`${API_URL}auth/github/login/?platform=web`, {
             method: "GET",
             headers: { "Content-Type": "application/json" },
         });
@@ -319,7 +321,7 @@ export const githubRedirect = async () => {
 
 export const githubCallback = async (code: string, state: string) => {
     try {
-        const response = await fetch(`${API_URL}auth/github/callback/`, {
+        const response = await fetch(`${API_URL}auth/github/callback/?platform=web`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({

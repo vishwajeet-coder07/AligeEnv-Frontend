@@ -9,6 +9,7 @@ import { CheckCircle } from "lucide-react";
 import Link from "next/link";
 import { toast } from "sonner";
 import { useThrottle } from "@/hooks/use-throttle";
+import { CardWrapper } from "./card-wrapper";
 
 export const VerifyRegistrationForm = () => {
     const router = useRouter();
@@ -107,23 +108,41 @@ export const VerifyRegistrationForm = () => {
 
     if (success) {
         return (
-
-            <Card className="w-full max-w-md border-none shadow-none">
-                <CardContent className="flex w-full flex-col items-center justify-center space-y-6 pt-6 ">
-                    <CheckCircle className="h-16 w-16 text-[#0057E5]" />
-                    <h1 className="text-2xl font-semibold text-black">Account Created</h1>
-                    <p className="text-sm text-center text-gray-600">
-                        Your account has been successfully created.
-                    </p>
+            <CardWrapper
+                headerLabel=""
+                backButtonLabel=""
+                backButtonHref=""
+            >
+                <div className="flex w-full flex-col items-center justify-center mb-5 space-y-6">
+                    <h1 className="text-2xl font-semibold text-gray-900">Account Created</h1>
+                    <div className="flex h-24 w-24 items-center justify-center rounded-full bg-green-200">
+                        <div className="flex h-16 w-16 items-center justify-center rounded-full bg-green-100">
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="32"
+                                height="32"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                strokeWidth="3"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                className="text-green-600"
+                            >
+                                <polyline points="20 6 9 17 4 12" />
+                            </svg>
+                        </div>
+                    </div>
                     <Link href="/login" className="w-full">
                         <Button className="w-full bg-[#0057E5] hover:bg-[#0046b8] text-white h-12 text-md font-medium">
                             Back to login
                         </Button>
                     </Link>
-                </CardContent>
-            </Card>
-        )
+                </div>
+            </CardWrapper>
+        );
     }
+
     return (
         <Card className="w-full max-w-md border-none shadow-none">
             <CardHeader className="flex flex-col items-center justify-center space-y-2 p-0 pb-10">
@@ -147,7 +166,8 @@ export const VerifyRegistrationForm = () => {
                                 onKeyDown={(e) => handleKeyDown(index, e)}
                                 onPaste={handlePaste}
                                 disabled={loading}
-                                className="h-12 w-12 rounded-lg bg-gray-300 text-center text-xl font-semibold text-gray-900 outline-none focus:ring-2 focus:ring-[#0057E5]"
+                                autoFocus={index === 0}
+                                className="h-12 w-12 rounded-lg bg-gray-200 text-center text-xl font-semibold text-gray-900 outline outline-1 outline-blue-500 outline-solid focus:ring-2 focus:ring-[#0057E5]"
                             />
                         ))}
                     </div>

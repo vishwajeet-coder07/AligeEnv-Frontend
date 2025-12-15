@@ -10,8 +10,7 @@ const DashboardPage = () => {
                 <h1 className="text-3xl font-bold mb-4">Dashboard</h1>
                 <p className="text-gray-600">Welcome to your dashboard!</p>
                 <Button className="mt-4" onClick={() => {
-                    removeAuthCookie("access_token");
-                    removeAuthCookie("refresh_token");
+                    removeAuthCookie("access_token", "refresh_token", "user");
                     router.push("/login")
                 }}>Logout</Button>
             </div>
