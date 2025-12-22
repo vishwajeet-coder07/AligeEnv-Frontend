@@ -1,4 +1,4 @@
-import { VerifyRegistrationForm } from "@/components/auth/verify-registration-form";
+import { VerifyRegistrationForm } from "@/features/auth/components/verify-registration-form";
 import { Suspense } from "react";
 
 const VerifyEmailPage = () => {

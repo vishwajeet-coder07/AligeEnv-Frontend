@@ -13,14 +13,14 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { CardWrapper } from "@/components/auth/card-wrapper";
+import { CardWrapper } from "@/features/auth/components/card-wrapper";
 import { useState } from "react";
 import { Eye, EyeOff } from "lucide-react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
-import { completeReset } from "@/actions/auth";
+import { completeReset } from "@/features/auth/actions/auth";
 import { toast } from "sonner";
-import { ResetCompleteSchema } from "@/schemas";
+import { ResetCompleteSchema } from "@/features/auth/schemas";
 import { useThrottle } from "@/hooks/use-throttle";
 
 export const NewPasswordForm = () => {

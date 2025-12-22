@@ -1,7 +1,7 @@
 "use server";
 
 import * as z from "zod";
-import { RegisterSchema, LoginSchema, ResetSchema, VerifySchema, ResetCompleteSchema } from "@/schemas";
+import { RegisterSchema, LoginSchema, ResetSchema, VerifySchema, ResetCompleteSchema } from "@/features/auth/schemas";
 import { cookies } from "next/headers";
 
 const setAuthCookie = async (name: string, value: string, remember: boolean, maxAgeSeconds: number = 24 * 60 * 60) => {

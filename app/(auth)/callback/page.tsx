@@ -2,7 +2,7 @@
 
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, Suspense, useRef } from "react";
-import { googleCallback, githubCallback } from "@/actions/auth";
+import { googleCallback, githubCallback } from "@/features/auth/actions/auth";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 

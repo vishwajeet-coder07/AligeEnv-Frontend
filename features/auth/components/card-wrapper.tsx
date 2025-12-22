@@ -6,7 +6,7 @@ import {
     CardFooter,
     CardHeader,
 } from "@/components/ui/card";
-import { Social } from "@/components/auth/social";
+import { Social } from "@/features/auth/components/social";
 import { ArrowLeft } from "lucide-react";
 
 interface CardWrapperProps {

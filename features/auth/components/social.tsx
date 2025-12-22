@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
-import { googleRedirect, githubRedirect } from "@/actions/auth";
+import { googleRedirect, githubRedirect } from "@/features/auth/actions/auth";
 
 export const Social = () => {
     const handleGoogleRedirect = async () => {

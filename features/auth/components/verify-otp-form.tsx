@@ -4,7 +4,7 @@ import { useState, useRef, useEffect, KeyboardEvent, ClipboardEvent } from "reac
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { useRouter, useSearchParams } from "next/navigation";
-import { forgotPassword, resetPassword } from "@/actions/auth";
+import { forgotPassword, resetPassword } from "@/features/auth/actions/auth";
 import { toast } from "sonner";
 import { useThrottle } from "@/hooks/use-throttle";
 

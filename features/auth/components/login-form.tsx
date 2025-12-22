@@ -3,7 +3,7 @@
 import * as z from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { LoginSchema } from "@/schemas";
+import { LoginSchema } from "@/features/auth/schemas";
 import {
     Form,
     FormControl,
@@ -15,12 +15,12 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
-import { CardWrapper } from "@/components/auth/card-wrapper";
+import { CardWrapper } from "@/features/auth/components/card-wrapper";
 import { Eye, EyeOff } from "lucide-react";
 import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { login } from "@/actions/auth";
+import { login } from "@/features/auth/actions/auth";
 import { toast } from "sonner";
 import { useThrottle } from "@/hooks/use-throttle";
 

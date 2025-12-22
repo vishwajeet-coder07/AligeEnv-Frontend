@@ -3,7 +3,7 @@
 import * as z from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { ResetSchema } from "@/schemas";
+import { ResetSchema } from "@/features/auth/schemas";
 import {
     Form,
     FormControl,
@@ -14,10 +14,10 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { CardWrapper } from "@/components/auth/card-wrapper";
+import { CardWrapper } from "@/features/auth/components/card-wrapper";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { forgotPassword } from "@/actions/auth";
+import { forgotPassword } from "@/features/auth/actions/auth";
 import { useThrottle } from "@/hooks/use-throttle";
 
 export const ForgotPasswordForm = () => {

@@ -1,5 +1,5 @@
 
-import { VerifyOtpForm } from "@/components/auth/verify-otp-form";
+import { VerifyOtpForm } from "@/features/auth/components/verify-otp-form";
 import { Suspense } from "react";
 
 const VerifyOtpPage = () => {

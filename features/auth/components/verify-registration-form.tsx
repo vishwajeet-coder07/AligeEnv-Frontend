@@ -3,7 +3,7 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { useRouter, useSearchParams } from "next/navigation";
-import { verifyRegistration, resendRegistrationOtp } from "@/actions/auth";
+import { verifyRegistration, resendRegistrationOtp } from "@/features/auth/actions/auth";
 import { useEffect, useRef, useState, KeyboardEvent, ClipboardEvent } from "react";
 import { CheckCircle } from "lucide-react";
 import Link from "next/link";

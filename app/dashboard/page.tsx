@@ -1,7 +1,7 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
-import { removeAuthCookie } from "@/actions/auth";
+import { removeAuthCookie } from "@/features/auth/actions/auth";
 const DashboardPage = () => {
     const router = useRouter();
     return (
