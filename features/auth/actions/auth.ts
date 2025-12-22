@@ -9,7 +9,7 @@ const setAuthCookie = async (
     value: string,
     remember: boolean,
     maxAgeSeconds: number = 24 * 60 * 60,
-    cookieStoreParam?: any // Use the store if provided
+    cookieStoreParam?: any
 ) => {
     const cookieStore = cookieStoreParam || await cookies();
     cookieStore.set(name, value, {
@@ -94,8 +94,8 @@ export const refreshAuthToken = async () => {
 
         const newRefreshToken = data.refresh || data.refresh_token;
         const newAccessToken = data.access || data.access_token;
-        await setAuthCookie("refresh_token", newRefreshToken, true, 60 * 60 * 24 * 7);
-        await setAuthCookie("access_token", newAccessToken, true, 60 * 60 * 24);
+        await Promise.all([setAuthCookie("refresh_token", newRefreshToken, true, 60 * 60 * 24 * 7), setAuthCookie("access_token", newAccessToken, true, 60 * 60 * 24)
+        ])
 
         return { success: "Token refreshed", accessToken: newAccessToken };
     } catch (error) {
