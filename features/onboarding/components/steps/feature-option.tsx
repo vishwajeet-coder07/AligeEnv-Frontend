@@ -15,8 +15,10 @@ interface WorkspaceStepProps {
 
 export function WorkspaceStepFeature({ onNext, onBack, initialData }: WorkspaceStepProps) {
     const [name, setName] = useState(initialData?.name || "")
-    const [selectedTools, setSelectedTools] = useState<string[]>(["kanban"])
+    const [selectedTools, setSelectedTools] = useState<string[]>(["Kanban"])
     const [activeTool, setActiveTool] = useState<string>("Kanban")
+    const [flipped, setFlipped] = useState(false)
+
 
     const handleNext = () => {
         if (name.trim()) {
@@ -48,7 +50,6 @@ export function WorkspaceStepFeature({ onNext, onBack, initialData }: WorkspaceS
 
             if (isSelected) {
                 const next = prev.filter((t) => t !== id)
-
                 if (id === activeTool && next.length > 0) {
                     setActiveTool(next[next.length - 1])
                 }
@@ -59,21 +60,31 @@ export function WorkspaceStepFeature({ onNext, onBack, initialData }: WorkspaceS
                 return [...prev, id]
             }
         })
+        setFlipped((prev) => !prev)
     }
 
 
 
     return (
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-10 items-center mx-auto ">
-
-            <div className="flex justify-center" key={activeTool}>
-                <Image
-                    src={TOOL_IMAGES[activeTool]}
-                    alt="Workspace tools"
-                    width={420}
-                    height={320}
-                    className="max-w-full transition-all duration-300" />
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-10 items-center mx-auto">
+            <div className="flex justify-center perspective">
+                <div
+                    className={cn(
+                        "relative transition-transform duration-700 ease-in-out transform-style-preserve-3d",
+                        flipped && "rotate-y-180"
+                    )}
+                >
+                    <Image
+                        key={activeTool}
+                        src={TOOL_IMAGES[activeTool] || '/Images/KanbanView.svg'}
+                        alt={activeTool}
+                        width={420}
+                        height={320}
+                        className="backface-hidden"
+                    />
+                </div>
             </div>
+
             <div>
                 <div className="flex items-center justify-center gap-1">
                     <Image
@@ -128,12 +139,12 @@ export function WorkspaceStepFeature({ onNext, onBack, initialData }: WorkspaceS
                 <div className="flex items-center mt-3 justify-center gap-2">
                     <Button
                         className="flex-1 hover:bg-gray-100 bg-transparent py-6 text-lg text-blue-700 font-light border border-blue-700 border-2"
-                        onClick={onBack} disabled={!name.trim()}>
+                        onClick={onBack}>
                         Back
                     </Button>
                     <Button
                         className="flex-1 hover:bg-blue-800 bg-blue-700 py-6 text-lg text-white font-light border border-blue-700 border-2"
-                        onClick={handleNext} disabled={!name.trim()}>
+                        onClick={handleNext} disabled={selectedTools.length === 0}>
                         Continue
                     </Button>
                 </div>

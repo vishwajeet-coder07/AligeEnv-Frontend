@@ -122,3 +122,18 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* Enables 3D space */
+.perspective {
+  perspective: 1200px;
+}
+
+/* Keep 3D transform */
+.transform-style-preserve-3d {
+  transform-style: preserve-3d;
+}
+
+/* Right → Left rotation */
+.rotate-y-180 {
+  transform: rotateY(-360deg);
+}
