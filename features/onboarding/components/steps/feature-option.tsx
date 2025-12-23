@@ -1,11 +1,9 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
 import Image from "next/image"
 import { cn } from "@/lib/utils"
-import { id } from "zod/v4/locales"
 
 interface WorkspaceStepProps {
     onNext: (data: { name: string }) => void
@@ -44,6 +42,17 @@ export function WorkspaceStepFeature({ onNext, onBack, initialData }: WorkspaceS
         Reports: "/Images/ReportView.svg",
     }
 
+    useEffect(() => {
+        const storedActiveTool = localStorage.getItem("activeTool")
+        const storedSelectedTools = localStorage.getItem("selectedTools")
+        if (storedActiveTool) {
+            setActiveTool(storedActiveTool)
+        }
+        if (storedSelectedTools) {
+            setSelectedTools(JSON.parse(storedSelectedTools))
+        }
+    }, [])
+
     const toggleTool = (id: string) => {
         setSelectedTools((prev) => {
             const isSelected = prev.includes(id)
@@ -52,11 +61,15 @@ export function WorkspaceStepFeature({ onNext, onBack, initialData }: WorkspaceS
                 const next = prev.filter((t) => t !== id)
                 if (id === activeTool && next.length > 0) {
                     setActiveTool(next[next.length - 1])
+                    localStorage.setItem("selectedTools", JSON.stringify(next))
+                    localStorage.setItem("activeTool", next[next.length - 1])
                 }
 
                 return next
             } else {
+                localStorage.setItem("selectedTools", JSON.stringify([...prev, id]))
                 setActiveTool(id)
+                localStorage.setItem("activeTool", id)
                 return [...prev, id]
             }
         })
@@ -66,7 +79,7 @@ export function WorkspaceStepFeature({ onNext, onBack, initialData }: WorkspaceS
 
 
     return (
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-10 items-center mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 w-full items-center">
             <div className="flex justify-center perspective">
                 <div
                     className={cn(
