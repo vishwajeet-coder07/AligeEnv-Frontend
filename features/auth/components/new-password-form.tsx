@@ -71,8 +71,6 @@ export const NewPasswordForm = () => {
         return (
             <CardWrapper
                 headerLabel=""
-                backButtonLabel=""
-                backButtonHref=""
             >
                 <div className="flex w-full flex-col items-center justify-center space-y-6">
                     <h1 className="text-2xl font-semibold text-gray-900">Password Changed</h1>
@@ -107,8 +105,6 @@ export const NewPasswordForm = () => {
     return (
         <CardWrapper
             headerLabel="Reset Password"
-            backButtonLabel="Back to login"
-            backButtonHref="/login"
         >
             <div className="mb-6 text-center text-sm text-gray-600">
                 Enter your new password below

@@ -54,8 +54,6 @@ export const ForgotPasswordForm = () => {
     return (
         <CardWrapper
             headerLabel="Forgot Password"
-            backButtonLabel="Back to login"
-            backButtonHref="/login"
         >
             <div className="mb-4 text-center text-sm text-gray-600">
                 Please enter your registered email to receive a verification code.

@@ -108,8 +108,6 @@ export const VerifyRegistrationForm = () => {
         return (
             <CardWrapper
                 headerLabel=""
-                backButtonLabel=""
-                backButtonHref=""
             >
                 <div className="flex w-full flex-col items-center justify-center mb-5 space-y-6">
                     <h1 className="text-2xl font-semibold text-gray-900">Account Created</h1>
