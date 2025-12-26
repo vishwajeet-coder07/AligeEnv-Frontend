@@ -81,8 +81,8 @@ export function WorkspaceStepFeature({ onNext, onBack, initialData }: WorkspaceS
             <div className="hidden md:flex justify-center perspective">
                 <div
                     className={cn(
-                        "relative transition-all duration-500 ease-in-out",
-                        flipped ? "scale-105 opacity-90" : "scale-100 opacity-100"
+                        "relative transition-transform duration-1000 ease-in-out transform-style-preserve-3d",
+                        flipped && "rotate-y-180"
                     )}
                 >
                     <Image
@@ -91,7 +91,7 @@ export function WorkspaceStepFeature({ onNext, onBack, initialData }: WorkspaceS
                         alt={activeTool}
                         width={420}
                         height={320}
-                        className="rounded-xl shadow-2xl border border-gray-100 bg-white"
+                        className=""
                     />
                 </div>
             </div>
