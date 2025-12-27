@@ -1,9 +1,11 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import Image from "next/image"
 import { cn } from "@/lib/utils"
+import { useAppDispatch, useAppSelector } from "@/lib/hooks"
+import { setSelectedTools, setActiveTool } from "@/lib/features/onboarding/onboarding-Slice"
 
 interface WorkspaceStepProps {
     onNext: (data: { name: string }) => void
@@ -12,9 +14,9 @@ interface WorkspaceStepProps {
 }
 
 export function WorkspaceStepFeature({ onNext, onBack, initialData }: WorkspaceStepProps) {
+    const dispatch = useAppDispatch()
+    const { selectedTools, activeTool } = useAppSelector((state) => state.onboarding)
     const [name, setName] = useState(initialData?.name || "")
-    const [selectedTools, setSelectedTools] = useState<string[]>(["Kanban"])
-    const [activeTool, setActiveTool] = useState<string>("Kanban")
     const [flipped, setFlipped] = useState(false)
 
 
@@ -42,37 +44,23 @@ export function WorkspaceStepFeature({ onNext, onBack, initialData }: WorkspaceS
         Reports: "/Images/ReportView.svg",
     }
 
-    useEffect(() => {
-        const storedActiveTool = localStorage.getItem("activeTool")
-        const storedSelectedTools = localStorage.getItem("selectedTools")
-        if (storedActiveTool) {
-            setActiveTool(storedActiveTool)
-        }
-        if (storedSelectedTools) {
-            setSelectedTools(JSON.parse(storedSelectedTools))
-        }
-    }, [])
-
     const toggleTool = (id: string) => {
-        setSelectedTools((prev) => {
-            const isSelected = prev.includes(id)
+        const isSelected = selectedTools.includes(id)
+        let nextTools: string[]
+        let nextActive = activeTool
 
-            if (isSelected) {
-                const next = prev.filter((t) => t !== id)
-                if (id === activeTool && next.length > 0) {
-                    setActiveTool(next[next.length - 1])
-                    localStorage.setItem("selectedTools", JSON.stringify(next))
-                    localStorage.setItem("activeTool", next[next.length - 1])
-                }
-
-                return next
-            } else {
-                localStorage.setItem("selectedTools", JSON.stringify([...prev, id]))
-                setActiveTool(id)
-                localStorage.setItem("activeTool", id)
-                return [...prev, id]
+        if (isSelected) {
+            nextTools = selectedTools.filter((t) => t !== id)
+            if (id === activeTool && nextTools.length > 0) {
+                nextActive = nextTools[nextTools.length - 1]
             }
-        })
+        } else {
+            nextTools = [...selectedTools, id]
+            nextActive = id
+        }
+
+        dispatch(setSelectedTools(nextTools))
+        dispatch(setActiveTool(nextActive))
         setFlipped((prev) => !prev)
     }
 

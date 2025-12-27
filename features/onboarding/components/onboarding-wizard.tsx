@@ -1,6 +1,7 @@
 "use client"
 
-import { useState } from "react"
+import { useAppDispatch, useAppSelector } from "@/lib/hooks"
+import { setWorkspaceName } from "@/lib/features/onboarding/onboarding-Slice"
 import { WorkspaceStepName } from "./steps/workspaceName-step"
 import { WorkspaceStepWork } from "./steps/work-option"
 import { WorkspaceStepFeature } from "./steps/feature-option"
@@ -16,19 +17,14 @@ interface OnboardingWizardProps {
 }
 
 export default function OnboardingWizard({ step, onStepChange }: OnboardingWizardProps) {
-    const [data, setData] = useState<OnboardingData>({
-        workspaceName: "",
-    })
+    const dispatch = useAppDispatch()
+    const { workspaceName } = useAppSelector((state) => state.onboarding)
 
     const nextStep = () => onStepChange(step + 1)
     const prevStep = () => onStepChange(step - 1)
 
-    const updateData = (newData: Partial<OnboardingData>) => {
-        setData((prev) => ({ ...prev, ...newData }))
-    }
-
     const handleWorkspaceSubmit = (workspaceData: { name: string }) => {
-        updateData({ workspaceName: workspaceData.name })
+        dispatch(setWorkspaceName(workspaceData.name))
         nextStep()
     }
 
@@ -41,14 +37,14 @@ export default function OnboardingWizard({ step, onStepChange }: OnboardingWizar
             {step === 0 && (
                 <WorkspaceStepName
                     onNext={handleWorkspaceSubmit}
-                    initialData={{ name: data.workspaceName }}
+                    initialData={{ name: workspaceName }}
                 />
             )}
             {step === 1 && (
                 <WorkspaceStepWork
                     onNext={handleWorkspaceSubmit}
                     onBack={prevStep}
-                    initialData={{ name: data.workspaceName }}
+                    initialData={{ name: workspaceName }}
                 />
             )}
 
@@ -56,7 +52,7 @@ export default function OnboardingWizard({ step, onStepChange }: OnboardingWizar
                 <WorkspaceStepFeature
                     onNext={handleWorkspaceSubmit}
                     onBack={prevStep}
-                    initialData={{ name: data.workspaceName }}
+                    initialData={{ name: workspaceName }}
                 />
             )}
         </div>

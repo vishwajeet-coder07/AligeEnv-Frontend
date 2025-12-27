@@ -23,9 +23,12 @@ import { useRouter } from "next/navigation";
 import { login } from "@/features/auth/actions/auth";
 import { toast } from "sonner";
 import { useThrottle } from "@/hooks/use-throttle";
+import { useAppDispatch } from "@/lib/hooks";
+import { setCredentials } from "@/lib/features/auth/auth-Slice";
 
 export const LoginForm = () => {
     const router = useRouter();
+    const dispatch = useAppDispatch();
     const [showPassword, setShowPassword] = useState(false);
 
     const [loading, setLoading] = useState(false);
@@ -46,6 +49,10 @@ export const LoginForm = () => {
 
             if (data?.success) {
                 toast.success("Login successful");
+                dispatch(setCredentials({
+                    user: data.data.user,
+                    token: data.data.access_token
+                }));
                 router.push("/dashboard");
             } else {
                 console.error(data?.error || "Login failed");

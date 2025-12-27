@@ -69,6 +69,7 @@ export const metadata: Metadata = {
 };
 
 import { Toaster } from "@/components/ui/sonner";
+import StoreProvider from "@/lib/providers/ReduxProvider";
 
 export default function RootLayout({
   children,
@@ -81,7 +82,9 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} ${roboto.variable} antialiased font-roboto`}
         suppressHydrationWarning
       >
-        {children}
+        <StoreProvider>
+          {children}
+        </StoreProvider>
         <Toaster richColors />
       </body>
     </html>
